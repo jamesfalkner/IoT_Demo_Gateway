@@ -1,13 +1,12 @@
-FROM    resin/rpi-raspbian:jessie
+FROM    centos:centos7
 
 MAINTAINER psteiner <psteiner@redhat.com>
 
 # Update the system and Install necessary RPMs
-RUN apt-get update && \
-    apt-get install openjdk-7-jdk unzip wget
+RUN yum -y install java-1.7.0-openjdk java-1.7.0-openjdk-devel unzip wget telnet
 
 # Make sure required environments are set
-ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-armhf
+ENV JAVA_HOME /usr/lib/jvm/java-openjdk/
 ENV HOME /home/psteiner
 ENV MAVEN_HOME /opt/maven
 
@@ -15,11 +14,11 @@ ENV MAVEN_HOME /opt/maven
 RUN echo "root:redhat" | /usr/sbin/chpasswd
 
 # download and install maven
-RUN wget http://ftp.fau.de/apache/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.zip
-RUN unzip apache-maven-3.2.5-bin.zip
-RUN mv apache-maven-3.2.5/ /opt/maven
-RUN ln -s /opt/maven/bin/mvn /usr/bin/mvn
-RUN rm apache-maven-3.2.5-bin.zip
+RUN wget http://ftp.fau.de/apache/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.zip && \
+    unzip apache-maven-3.2.5-bin.zip && \
+    mv apache-maven-3.2.5/ /opt/maven && \
+    ln -s /opt/maven/bin/mvn /usr/bin/mvn && \
+    rm apache-maven-3.2.5-bin.zip
 
 
 # Create user to run processed
