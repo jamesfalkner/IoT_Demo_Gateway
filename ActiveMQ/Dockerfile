@@ -4,6 +4,7 @@ MAINTAINER psteiner <psteiner@redhat.com>
 
 # Make sure required environments are set
 ENV AMQ_HOME=/home/psteiner/jboss/jboss-a-mq-6.2.1.redhat-084
+ENV ACTIVEMQ_HOME=/home/psteiner/apache-activemq-5.11.0.redhat-621084
 
 # Add Installation files
 ADD Docker_Files/software/* /tmp/
@@ -14,13 +15,14 @@ USER psteiner
 
 # Install JBoss A-MQ
 RUN unzip /tmp/jboss-a-mq-6.2.1.redhat-084.zip -d /home/psteiner/jboss  && \
-    echo "admin=change12_me,admin,manager,viewer,Operator, Maintainer, Deployer, Auditor, Administrator, SuperUser" >> ${AMQ_HOME}/etc/users.properties
+    unzip ${AMQ_HOME}/extras/apache-activemq-5.11.0.redhat-621084-bin.zip -d /home/psteiner && \
+    echo "admin=change12_me" >> ${ACTIVEMQ_HOME}/conf/users.properties
 
-EXPOSE 8181
+EXPOSE 61616 5672 61613 1884 61614
 
-ENTRYPOINT ["/home/psteiner/jboss/jboss-a-mq-6.2.1.redhat-084/bin/standalone"]
+ENTRYPOINT ["/home/psteiner/apache-activemq-5.11.0.redhat-621084/bin/activemq","console"]
 CMD []
 
 
-# Build command -> docker build --rm -t psteiner/amq .
-# run command -> docker run -i -t psteiner/amq /bin/bash
+# Build command -> docker build --rm -t psteiner/activemq .
+# run command -> docker run -i -t psteiner/activemq /bin/bash
