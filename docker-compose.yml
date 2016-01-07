@@ -1,0 +1,20 @@
+activemq:
+        build: ./ActiveMQ
+        hostname: activemq
+        expose:
+                - 5432
+                - 80
+        ports:
+                - "80:80"
+                - "5432:5432"
+
+iotcontrollertemperature:
+        build: ./iot_controller_temperature
+        hostname: iotcontrollertemperature
+        expose:
+                - 8181
+                - 61616
+        ports:
+                - "10002:8181"
+        links:
+                - iotcontrollertemperature
