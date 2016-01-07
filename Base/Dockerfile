@@ -1,11 +1,10 @@
-FROM    centos:centos6
+FROM    resin/rpi-raspbian:jessie
 
 MAINTAINER psteiner <psteiner@redhat.com>
 
 # Update the system and Install necessary RPMs
-RUN yum -y update && \ 
-    yum -y install java-1.7.0-openjdk java-1.7.0-openjdk-devel unzip wget telnet && \
-    yum clean all
+RUN apt-get update && \
+    apt-get install openjdk-7-jdk java-1.7.0-openjdk java-1.7.0-openjdk-devel unzip wget
 
 # Make sure required environments are set
 ENV JAVA_HOME /usr/lib/jvm/jre
@@ -24,7 +23,7 @@ RUN rm apache-maven-3.2.5-bin.zip
 
 
 # Create user to run processed
-RUN useradd -m -d /home/psteiner -p psteiner psteiner 
+RUN useradd -m -d /home/psteiner -p psteiner psteiner
 
 # Switch to new user
 USER psteiner
