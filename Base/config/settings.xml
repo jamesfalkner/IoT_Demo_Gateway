@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+
+<profiles>
+
+    <profile>
+      <id>RedHatLocale</id>
+      <repositories>
+        <repository>
+          <id>jboss-eap-repository</id>
+          <url>file:///media/psf/Home/.m2/repo/jboss-eap-6.3.0.GA-maven-repository</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+    </profile>
+
+    <profile>
+	<id>redhat-techpreview</id>
+	<repositories>
+		<repository>
+		    <id>redhat-techpreview-all-repository</id>
+		    <name>Red Hat Tech Preview repository (all)</name>
+		    <url>http://maven.repository.redhat.com/techpreview/all/</url>
+		    <layout>default</layout>
+		    <releases>
+			<enabled>true</enabled>
+			<updatePolicy>never</updatePolicy>
+		    </releases>
+		    <snapshots>
+			<enabled>false</enabled>
+			<updatePolicy>never</updatePolicy>
+		    </snapshots>
+		</repository>
+	</repositories>
+    	<pluginRepositories>
+		<pluginRepository>
+		    <id>redhat-techpreview-all-repository</id>
+		    <name>Red Hat Tech Preview repository (all)</name>
+		    <url>http://maven.repository.redhat.com/techpreview/all/</url>
+		    <layout>default</layout>
+		    <releases>
+		        <enabled>true</enabled>
+		        <updatePolicy>never</updatePolicy>
+		    </releases>
+		    <snapshots>
+		        <enabled>false</enabled>
+		        <updatePolicy>never</updatePolicy>
+		    </snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+    </profile>
+
+	<profile>
+		<id>Fuse</id>
+		<repositories>
+			<repository>
+				<id>release.fusesource.org</id>
+				<name>FuseSource Release Repository</name>
+				<url>http://repo.fusesource.com/nexus/content/repositories/releases</url>
+				<snapshots>
+					<enabled>false</enabled>
+				</snapshots>
+				<releases>
+					<enabled>true</enabled>
+				</releases>
+			</repository>
+			<repository>
+				<id>ea.fusesource.org</id>
+				<name>FuseSource Community Early Access Release Repository</name>
+				<url>http://repo.fusesource.com/nexus/content/groups/ea</url>
+				<snapshots>
+					<enabled>false</enabled>
+				</snapshots>
+				<releases>
+					<enabled>true</enabled>
+				</releases>
+			</repository>    
+			<repository>
+				<id>snapshot.fusesource.org</id>
+				<name>FuseSource Snapshot Repository</name>
+				<url>http://repo.fusesource.com/nexus/content/repositories/snapshots</url>
+				<snapshots>
+					<enabled>true</enabled>
+				</snapshots>
+				<releases>
+					<enabled>false</enabled>
+				</releases>
+			</repository>
+		</repositories>
+		<pluginRepositories>
+			<pluginRepository>
+				<id>release.fusesource.org</id>
+				<name>FuseSource Release Repository</name>
+				<url>http://repo.fusesource.com/nexus/content/repositories/releases</url>
+				<snapshots>
+					<enabled>false</enabled>
+				</snapshots>
+				<releases>
+					<enabled>true</enabled>
+				</releases>
+			</pluginRepository>
+			<pluginRepository>
+				<id>ea.fusesource.org</id>
+				<name>FuseSource Community Early Access Release Repository</name>
+				<url>http://repo.fusesource.com/nexus/content/groups/ea</url>
+				<snapshots>
+					<enabled>false</enabled>
+				</snapshots>
+				<releases>
+					<enabled>true</enabled>
+				</releases>
+			</pluginRepository>      
+				<pluginRepository>
+				<id>snapshot.fusesource.org</id>
+				<name>FuseSource Snapshot Repository</name>
+				<url>http://repo.fusesource.com/nexus/content/repositories/snapshots</url>
+				<snapshots>
+					<enabled>true</enabled>
+				</snapshots>
+				<releases>
+					<enabled>false</enabled>
+				</releases>
+			</pluginRepository>
+		</pluginRepositories>	
+	</profile>
+</profiles>
+
+  <activeProfiles>
+    <!-- Optionally, make the repositories active by default -->
+	<activeProfile>redhat-techpreview</activeProfile>
+	<activeProfile>redhat-techpreview</activeProfile>    
+</activeProfiles>
+
+</settings>
