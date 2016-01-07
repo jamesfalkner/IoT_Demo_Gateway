@@ -4,10 +4,10 @@ MAINTAINER psteiner <psteiner@redhat.com>
 
 # Update the system and Install necessary RPMs
 RUN apt-get update && \
-    apt-get install openjdk-7-jdk java-1.7.0-openjdk java-1.7.0-openjdk-devel unzip wget
+    apt-get install openjdk-7-jdk unzip wget
 
 # Make sure required environments are set
-ENV JAVA_HOME /usr/lib/jvm/jre
+ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-armhf
 ENV HOME /home/psteiner
 ENV MAVEN_HOME /opt/maven
 
