@@ -2,19 +2,28 @@ activemq:
         build: ./ActiveMQ
         hostname: activemq
         expose:
-                - 5432
-                - 80
-        ports:
-                - "80:80"
-                - "5432:5432"
-
-iotcontrollertemperature:
-        build: ./iot_controller_temperature
-        hostname: iotcontrollertemperature
-        expose:
-                - 8181
                 - 61616
+                - 5672
+                - 61613
+                - 1884
+                - 61614
+                - 8161
         ports:
-                - "10002:8181"
+                - "61616:61616"
+                - "5672:5672"
+                - "61613:61613"
+                - "1884:1884"
+                - "61614:61614"
+                - "8161:8161"
+
+fuseeap:
+        build: ./FuseEAP
+        hostname: fuse
+        expose:
+                - 8080
+                - 9990
+        ports:
+                - "8080:8080"
+                - "9990:9990"
         links:
-                - iotcontrollertemperature
+                - activemq

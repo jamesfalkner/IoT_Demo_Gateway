@@ -22,6 +22,10 @@ WORKDIR ${EAP_HOME}
 RUN java -jar /tmp/fuse-eap-installer-6.2.1.redhat-084.jar
 WORKDIR ${HOME}
 
+# Cleanup
+RUN rm /tmp/*.zip && \
+    rm /tmp/*.jar
+
 EXPOSE 9990 9999 8080 8787
 
 ENTRYPOINT ["/home/psteiner/jboss/jboss-eap-6.4/bin/standalone.sh", "-c=standalone-full.xml"]

@@ -16,7 +16,11 @@ USER psteiner
 # Install JBoss A-MQ
 RUN unzip /tmp/jboss-a-mq-6.2.1.redhat-084.zip -d /home/psteiner/jboss  && \
     unzip ${AMQ_HOME}/extras/apache-activemq-5.11.0.redhat-621084-bin.zip -d /home/psteiner && \
-    echo "admin=change12_me" >> ${ACTIVEMQ_HOME}/conf/users.properties
+    echo -e "\nadmin=change12_me" >> ${ACTIVEMQ_HOME}/conf/users.properties
+
+# Cleanup
+RUN rm /tmp/*.zip && \
+    rm -rf ${AMQ_HOME}
 
 EXPOSE 61616 5672 61613 1884 61614
 
