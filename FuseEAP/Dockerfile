@@ -16,7 +16,10 @@ USER psteiner
 # Install JBoss EAP
 RUN unzip /tmp/jboss-eap-6.4.0.zip -d /home/psteiner/jboss  && \
     ${EAP_HOME}/bin/add-user.sh psteiner change12_me --silent   && \
-    echo "JAVA_OPTS=\"\$JAVA_OPTS -Djboss.bind.address=0.0.0.0 -Djboss.bind.address.management=0.0.0.0\"" >> ${EAP_HOME}/bin/standalone.conf
+    echo "JAVA_OPTS=\"\$JAVA_OPTS -Djboss.bind.address=0.0.0.0 -Djboss.bind.address.management=0.0.0.0 -Xmx512m -Xms512m\"" >> ${EAP_HOME}/bin/standalone.conf && \
+    sed -i "s/-Xms1303m/-Xms512m/" $EAP_HOME/bin/standalone.conf && \
+    sed -i "s/-Xmx1303m/-Xmx512m/" $EAP_HOME/bin/standalone.conf 
+
 # Install JBoss Fuse
 WORKDIR ${EAP_HOME}
 RUN java -jar /tmp/fuse-eap-installer-6.2.1.redhat-084.jar
