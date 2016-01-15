@@ -27,3 +27,5 @@ fuseeap:
                 - "9990:9990"
         links:
                 - activemq
+        volumes:
+                - Smart_Gateway/target:/home/psteiner/target

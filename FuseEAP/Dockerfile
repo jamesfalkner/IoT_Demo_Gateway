@@ -7,10 +7,13 @@ ENV EAP_HOME /home/psteiner/jboss/jboss-eap-6.4
 
 # Add Installation files
 ADD Docker_Files/software/* /tmp/
+ADD Docker_Files/scripts/start.sh /home/psteiner/
 
 USER root
 RUN chown -R psteiner /tmp/*.jar  && \
-    chown -R psteiner /tmp/*.zip
+    chown -R psteiner /tmp/*.zip && \
+    chown -R psteiner /home/psteiner/start.sh && \
+    chmod u+x /home/psteiner/start.sh
 USER psteiner
 
 # Install JBoss EAP
@@ -31,7 +34,7 @@ RUN rm /tmp/*.zip && \
 
 EXPOSE 9990 9999 8080 8787
 
-ENTRYPOINT ["/home/psteiner/jboss/jboss-eap-6.4/bin/standalone.sh", "-c=standalone-full.xml"]
+ENTRYPOINT ["/home/psteiner/start.sh"]
 CMD []
 
 
