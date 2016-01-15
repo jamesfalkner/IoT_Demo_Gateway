@@ -13,8 +13,7 @@ USER root
 RUN chown -R psteiner /tmp/*.jar  && \
     chown -R psteiner /tmp/*.zip && \
     chown -R psteiner /home/psteiner/start.sh && \
-    chmod u+x /home/psteiner/start.sh
-USER psteiner
+    chmod u+x /home/psteiner/start.sh 
 
 # Install JBoss EAP
 RUN unzip /tmp/jboss-eap-6.4.0.zip -d /home/psteiner/jboss  && \

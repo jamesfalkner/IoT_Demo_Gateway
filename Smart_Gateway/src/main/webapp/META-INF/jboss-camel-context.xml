@@ -40,7 +40,7 @@
 	    <bindy type="Csv" classType="com.redhat.demo.smart_gateway.Dataset" id="bindyDataFormat"/>
 	  </dataFormats>
 	  <route>
-	    <from uri="mqtt:mqtt.temp.receiver?host=tcp://activemq:1883&amp:subscribeTopicNames=iotdemo/temperature/#&amp;userName=admin&amp;password=change12_me"/>
+	    <from uri="mqtt:mqtt.temp.receiver?host=tcp://activemq:1883&amp;subscribeTopicNames=iotdemo/temperature/#&amp;userName=admin&amp;password=change12_me"/>
 	    <bean ref="myHelper" method="enhanceMessage" beanType="com.redhat.demo.smart_gateway.MyHelper"/>
 	    <unmarshal ref="bindyDataFormat"/>
 	    <to uri="activemqRemote:queue:message.to.router"/>

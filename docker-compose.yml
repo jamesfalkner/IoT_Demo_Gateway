@@ -27,5 +27,6 @@ fuseeap:
                 - "9990:9990"
         links:
                 - activemq
+        privileged: true 
         volumes:
-                - Smart_Gateway/target:/home/psteiner/target
+                - Smart_Gateway/target:/home/psteiner/target:rw
