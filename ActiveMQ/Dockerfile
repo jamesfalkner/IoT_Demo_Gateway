@@ -25,7 +25,7 @@ RUN unzip /tmp/jboss-a-mq-6.2.1.redhat-084.zip -d /home/psteiner/jboss  && \
 RUN rm /tmp/*.zip && \
     rm -rf ${AMQ_HOME}
 
-EXPOSE 61616 5672 61613 1884 61614
+EXPOSE 61616 5672 61613 1883 61614
 
 ENTRYPOINT ["/home/psteiner/apache-activemq-5.11.0.redhat-621084/bin/activemq","console"]
 CMD []
