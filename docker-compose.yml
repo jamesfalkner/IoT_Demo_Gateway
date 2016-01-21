@@ -9,7 +9,6 @@ activemq:
                 - 61614
                 - 8161
         ports:
-                - "61616:61616"
                 - "5672:5672"
                 - "61613:61613"
                 - "1883:1883"
@@ -19,6 +18,8 @@ activemq:
 fuseeap:
         build: ./FuseEAP
         hostname: fuse
+        extra_hosts:
+                - "iotdatacenterreceiver:10.211.55.154"
         expose:
                 - 8080
                 - 9990
@@ -27,6 +28,6 @@ fuseeap:
                 - "9990:9990"
         links:
                 - activemq
-        privileged: true 
+        privileged: true
         volumes:
-                - Smart_Gateway/target:/home/psteiner/target:rw
+                - ./Smart_Gateway/target:/home/psteiner/target
