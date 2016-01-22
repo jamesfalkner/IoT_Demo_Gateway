@@ -13,14 +13,18 @@ import org.apache.camel.dataformat.bindy.annotation.DataField;
 public class Dataset {
 	@DataField(pos = 1, required = true) 
 	private String	deviceType;
+	
 	@DataField(pos = 2, required = true) 
 	private String	deviceID;
+	
 	@DataField(pos = 3, required = true) 
 	private	String	payload;
-	@DataField(pos = 4, required = true) 
-	private String	timestamp;
-	@DataField(pos = 5, required = true)
+	
+	@DataField(pos = 4, required = true)
 	private String	count;
+	
+	@DataField(pos = 5, required = true) 
+	private String	timestamp;
 	
 	public Dataset()
 	{
