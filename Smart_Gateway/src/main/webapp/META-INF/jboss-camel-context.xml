@@ -28,9 +28,9 @@
     <bean id="activemqRemote" class="org.apache.activemq.camel.component.ActiveMQComponent" >
       <property name="connectionFactory">
         <bean class="org.apache.activemq.ActiveMQConnectionFactory">
-          <property name="brokerURL" value="tcp://iotdatacenterreceiver:61616" />
+          <property name="brokerURL" value="tcp://192.168.178.101:61616" />
           <property name="userName" value="admin"/>
-          <property name="password" value="change12_me"/>
+          <property name="password" value="admin"/>
         </bean>
       </property>
     </bean>
@@ -43,7 +43,8 @@
 	    <from uri="mqtt:mqtt.temp.receiver?host=tcp://activemq:1883&amp;subscribeTopicNames=iotdemo/temperature/#&amp;userName=admin&amp;password=change12_me"/>
 	    <bean ref="myHelper" method="enhanceMessage" beanType="com.redhat.demo.smart_gateway.MyHelper"/>
 	    <unmarshal ref="bindyDataFormat"/>
-	    <to uri="activemqRemote:queue:message.to.router"/>
+<log message="${body}"/>
+	    <to uri="activemqRemote:queue:message.to.datacenter"/>
 	  </route>
 	</camelContext>
 </beans>

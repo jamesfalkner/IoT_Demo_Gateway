@@ -14,11 +14,15 @@ public class MyHelper {
 	@Handler
 	public String enhanceMessage( String body,  Exchange exchange  ) {
 		String res = null;
+
+System.out.println("Incoming message: "+body );
 		
 		res = addDeviceID(body, exchange);
 		res = addDeviceType(res, exchange);
 		res = appendTimestamp(res, exchange);
 		
+System.out.println("Outgoing message: " + res );
+
 		return res;
 	}
    

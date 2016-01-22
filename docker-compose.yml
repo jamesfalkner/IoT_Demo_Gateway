@@ -18,8 +18,6 @@ activemq:
 fuseeap:
         build: ./FuseEAP
         hostname: fuse
-        extra_hosts:
-                - "iotdatacenterreceiver:10.211.55.154"
         expose:
                 - 8080
                 - 9990
