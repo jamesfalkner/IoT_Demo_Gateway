@@ -1,0 +1,55 @@
+- name: Configure a Pi to be a smart gateway for IoT
+  hosts: gateways
+  sudo: True
+  tasks:
+      - name: Install various pre-requisites
+        apt: name=git,maven2,python,python-docker,openjdk-7-jdk state=present
+
+      - name: Download Hypriot
+        get_url: url=http://downloads.hypriot.com/docker-hypriot_1.9.1-1_armhf.deb dest=/home/pi/
+
+      - name: Install Hypriot
+        apt: deb=/home/pi/docker-hypriot_1.9.1-1_armhf.deb state=present
+
+      - name: Start Hypriot
+        service: name=docker state=running
+
+      - name: Enable Hypriot to run after reboots
+        service: name=docker enabled=yes
+
+      - name: Add user pi to docker group
+        user: name=pi groups=docker append=yes
+
+      - name: Download Docker-Compose
+        get_url: url=https://github.com/hypriot/compose/releases/download/1.2.0-raspbian/docker-compose-Linux-armv7l dest=/home/pi mode="0555"
+
+      - name: Install Docker-Compose
+        command: mv /home/pi/docker-compose-Linux-armv7l /usr/local/bin/docker-compose
+
+      - name: Clone Smart Gateway code from github
+        git: repo=https://github.com/PatrickSteiner/IoT_Demo_Gateway.git dest=/home/pi/IoT_Demo_Gateway
+
+      - name: Upload JBoss A-MQ
+        copy: src=./files/jboss-a-mq-6.2.1.redhat-084.zip
+              dest=/home/pi/IoT_Demo_Gateway/ActiveMQ/Docker_Files/software/
+
+      - name: Upload JBoss EAP
+        copy: src=./files/jboss-eap-6.4.0.zip
+              dest=/home/pi/IoT_Demo_Gateway/FuseEAP/Docker_Files/software/
+
+      - name: Upload JBoss Fuse Integration for JBoss EAP
+        copy: src=./files/fuse-eap-installer-6.2.1.redhat-084.jar
+              dest=/home/pi/IoT_Demo_Gateway/FuseEAP/Docker_Files/software/
+
+      - name: Build the Smart Gateway deployables
+        shell: "mvn clean install"
+        args:
+           chdir: /home/pi/IoT_Demo_Gateway/Smart_Gateway
+
+      - name: Build Docker base image
+        docker_image: path="/home/pi/IoT_Demo_Gateway/Base" name="psteiner/base" state=present
+
+      - name: Building the other images with docker-compose
+        shell: "docker-compose build"
+        args:
+          chdir: /home/pi/IoT_Demo_Gateway
