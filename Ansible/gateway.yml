@@ -12,10 +12,10 @@
         apt: deb=/home/pi/docker-hypriot_1.9.1-1_armhf.deb state=present
 
       - name: Start Hypriot
-        service: name=docker state=running
+        shell: "service docker start"
 
       - name: Enable Hypriot to run after reboots
-        service: name=docker enabled=yes
+        shell: "update-rc.d -f docker enable"
 
       - name: Add user pi to docker group
         user: name=pi groups=docker append=yes
