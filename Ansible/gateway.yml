@@ -47,9 +47,15 @@
            chdir: /home/pi/IoT_Demo_Gateway/Smart_Gateway
 
       - name: Build Docker base image
-        docker_image: path="/home/pi/IoT_Demo_Gateway/Base" name="psteiner/base" state=present
+        shell: "docker build --rm -t psteiner/base ."
+        args:
+          chdir: /home/pi/IoT_Demo_Gateway/Base
+        tags:
+         - docker_images
 
       - name: Building the other images with docker-compose
         shell: "docker-compose build"
         args:
           chdir: /home/pi/IoT_Demo_Gateway
+        tags:
+         - docker_images
