@@ -60,7 +60,8 @@ public class MqttProducer extends Producer {
 	}
 	
 	public void close() throws MqttException{
-		
+
+		client.disconnect();
 		client.close();
 		
 	}
