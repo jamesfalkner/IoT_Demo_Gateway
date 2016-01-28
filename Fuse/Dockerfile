@@ -26,20 +26,16 @@ RUN chown -R psteiner:psteiner $HOME
 # continue as 'psteiner'
 USER psteiner
 
-RUN chmod +x $HOME/tmp/install.sh
-RUN chmod +x $HOME/run.sh
-
-# extract
-RUN unzip $HOME/tmp/$FUSE_INSTALL_IMAGE
-RUN mv $HOME/$FUSE_INSTALL_DIR $HOME/$FUSE_LOCATION
+RUN chmod +x $HOME/tmp/install.sh && \
+    chmod +x $HOME/run.sh && \
+    unzip $HOME/tmp/$FUSE_INSTALL_IMAGE && \
+    mv $HOME/$FUSE_INSTALL_DIR $HOME/$FUSE_LOCATION
 
 # remove some overhead
-RUN rm -rf $HOME/tmp/$FUSE_INSTALL_IMAGE
-RUN rm -rf $HOME/$FUSE_LOCATION/extras
-RUN rm -rf $HOME/$FUSE_LOCATION/quickstarts
+RUN rm -rf $HOME/tmp/$FUSE_INSTALL_IMAGE && \
+    rm -rf $HOME/$FUSE_LOCATION/extras && \
+    rm -rf $HOME/$FUSE_LOCATION/quickstarts
 
-# run the helper_install script
-# RUN $HOME/tmp/install.sh
 
 # remove dummy projects again
 RUN rm -rf $HOME/tmp/src && \
@@ -49,9 +45,9 @@ RUN rm -rf $HOME/tmp/src && \
 RUN mv $HOME/tmp/activemq.xml $HOME/$FUSE_LOCATION/etc
 
 # creates user
-RUN sed -i "s/#admin=admin/admin=change12_me/" $HOME/$FUSE_LOCATION/etc/users.properties
-RUN sed -i "s/#activemq.jmx.user/activemq.jmx.user/" $HOME/$FUSE_LOCATION/etc/system.properties
-RUN sed -i "s/#activemq.jmx.password/activemq.jmx.password/" $HOME/$FUSE_LOCATION/etc/system.properties
+RUN sed -i "s/#admin=admin/admin=change12_me/" $HOME/$FUSE_LOCATION/etc/users.properties && \
+    sed -i "s/#activemq.jmx.user/activemq.jmx.user/" $HOME/$FUSE_LOCATION/etc/system.properties && \
+    sed -i "s/#activemq.jmx.password/activemq.jmx.password/" $HOME/$FUSE_LOCATION/etc/system.properties
 
 # open ports
 EXPOSE 22 8101 8181 44444 1099 61616 80 8080
