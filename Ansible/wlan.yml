@@ -1,51 +1,6 @@
-- name: Configure a Pi to act as a WLAN Access-Point and DHCP Server
+- name: Set up a Wifi access point
   hosts: gateways
-  sudo: True
-  tasks:
-      - name: Install required packages
-        apt: name=hostapd,isc-dhcp-server state=present update_cache=yes
+  remote_user: root
 
-      - name: Add configuration to dhcpd.conf
-        template: src=./templates/dhcpd.j2 dest=/etc/dhcp/dhcpd.conf owner=root group=root mode=0644
-
-      - name: Add WLAN interface to DHCP Server
-        replace: dest=/etc/default/isc-dhcp-server regexp='INTERFACES=\"\"' replace='INTERFACES="wlan0"' backup=yes
-
-      - name: Takeing wlan0 down, just to be sure
-        shell: "ifdown wlan0"
-
-      - name: Add configuration to interfaces
-        template: src=./templates/interfaces.j2 dest=/etc/network/interfaces owner=root group=root mode=0644
-
-      - name: Assign a static IP address to the wifi adapter
-        shell: "ifconfig wlan0 192.168.42.1"
-
-      - name: create new
-        template: src=./templates/hostapd.j2 dest=/etc/hostapd/hostapd.conf owner=root group=root mode=0644
-
-      - name: Tell Pi where to find this configuration
-        replace: dest=/etc/default/hostapd regexp='#DAEMON_CONF=""' replace='DAEMON_CONF="/etc/hostapd/hostapd.conf"' backup=yes
-
-      - name: Start IP forwarding on boot
-        replace: dest=/etc/sysctl.conf regexp='#net.ipv4.ip_forward=1' replace='net.ipv4.ip_forward=1' backup=yes
-
-      - name: Start IP forwarding now
-        shell: "sh -c \"echo 1 > /proc/sys/net/ipv4/ip_forward\""
-
-      - name: Create  network translation between eth0 and wlan0
-        template: src=./templates/iptables.j2 dest=/etc/iptables.ipv4.nat owner=root group=root mode=0644
-
-      - name: Get hostapd command for our wlan adapter
-        unarchive: src=http://adafruit-download.s3.amazonaws.com/adafruit_hostapd_14128.zip dest=/usr/sbin/ copy=no mode="0755"
-
-      - name: Start hostapd
-        service: name=hostapd state=running
-
-      - name: Enable hostapd to run after reboots
-        service: name=hostapd enabled=yes
-
-      - name: Start isc-dhcp-server
-        service: name=isc-dhcp-server state=running
-
-      - name: Enable isc-dhcp-server to run after reboots
-        service: name=isc-dhcp-server enabled=yes
+  roles:
+    - {role: "ansible-role-wlan_ap", wlan_physical_device: "wlp0s20u2", wlan_ap_ipaddress: "192.168.42.1/24", wlan_ap_ssid: "iotdemo", wlan_ap_secret: "change12_me"}
