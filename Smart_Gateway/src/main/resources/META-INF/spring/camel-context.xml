@@ -14,7 +14,7 @@
   	<bean id="activemqLocal" class="org.apache.activemq.camel.component.ActiveMQComponent" >
     	<property name="connectionFactory">
       		<bean class="org.apache.activemq.ActiveMQConnectionFactory">
-        		<property name="brokerURL" value="${GATEWAY_JMS_BROKER_URL}" />
+        		<property name="brokerURL" value="${INBOUND_JMS_BROKER_URL}" />
         		<property name="userName" value="${BROKER_ADMIN_UID}"/>
         		<property name="password" value="${BROKER_ADMIN_PASSWD}"/>
       		</bean>
@@ -25,7 +25,7 @@
   	<bean id="activemqDatacener" class="org.apache.activemq.camel.component.ActiveMQComponent" >
     	<property name="connectionFactory">
       		<bean class="org.apache.activemq.ActiveMQConnectionFactory">
-        		<property name="brokerURL" value="${DATACENTER_JMS_BROKER_URL}" />
+        		<property name="brokerURL" value="${OUTBOUND_JMS_BROKER_URL}" />
         		<property name="userName" value="${BROKER_ADMIN_UID}"/>
         		<property name="password" value="${BROKER_ADMIN_PASSWD}"/>
       		</bean>

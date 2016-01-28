@@ -10,8 +10,8 @@ smartgateway:
                 - "61616:61616"
                 - "1883:1883"
         environment:
-                - GATEWAY_JMS_BROKER_URL=tcp://localhost:61616
-                - DATACENTER_JMS_BROKER_URL=tcp://192.168.178.97:61616
+                - INBOUND_JMS_BROKER_URL=tcp://localhost:61616
+                - OUTBOUND_JMS_BROKER_URL=tcp://localhost:61616
                 - BROKER_ADMIN_UID=admin
                 - BROKER_ADMIN_PASSWD=change12_me
                 - JAVA_MIN_MEM=256M
@@ -21,6 +21,7 @@ smartgateway:
         privileged: true
         volumes:
                 - ./Smart_Gateway/target:/home/psteiner/target
+                - ~/.m2/repository:/home/psteiner/.m2/repository
 
 rulescep:
       build: ./Rules_CEP
@@ -30,7 +31,7 @@ rulescep:
       environment:
                - SOURCE_AMQ_BROKER=tcp://smartgateway:61616
                - TARGET_AMQ_BROKER=tcp://192.168.178.97:61616
-               - SOURCE_QUEUE=message.to.rules
+               - SOURCE_QUEUE=message.to.rules_cep
                - TARGET_QUEUE=message.to.datacenter
                - BROKER_ADMIN_UID=admin
                - BROKER_ADMIN_PASSWD=change12_me
