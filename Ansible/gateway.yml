@@ -12,10 +12,10 @@
         apt: deb=/home/pi/docker-hypriot_1.9.1-1_armhf.deb state=present
 
       - name: Start Hypriot
-        service: name=docker state=running
+        shell: "service docker start"
 
       - name: Enable Hypriot to run after reboots
-        service: name=docker enabled=yes
+        shell: "update-rc.d -f docker enable"
 
       - name: Add user pi to docker group
         user: name=pi groups=docker append=yes
@@ -47,9 +47,15 @@
            chdir: /home/pi/IoT_Demo_Gateway/Smart_Gateway
 
       - name: Build Docker base image
-        docker_image: path="/home/pi/IoT_Demo_Gateway/Base" name="psteiner/base" state=present
+        shell: "docker build --rm -t psteiner/base ."
+        args:
+          chdir: /home/pi/IoT_Demo_Gateway/Base
+        tags:
+         - docker_images
 
       - name: Building the other images with docker-compose
         shell: "docker-compose build"
         args:
           chdir: /home/pi/IoT_Demo_Gateway
+        tags:
+         - docker_images
