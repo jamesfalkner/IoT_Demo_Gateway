@@ -54,13 +54,13 @@
 	    <bean ref="myHelper" method="enhanceMessage" beanType="com.redhat.demo.smart_gateway.MyHelper"/>
 	    <unmarshal ref="bindyDataFormat"/>
 	    <convertBodyTo type="java.lang.String"/>
-	    <to uri="activemqRemote:queue:message.to.datacenter"/>
+	    <to uri="activemqDatacenter:queue:message.to.datacenter"/>
 	  </route>
 	  
 	   <route>
 	  	<from uri="activemqLocale:queue:message.from.datacenter"/>
 	  	<log message="Received message from Datacenter = ${body}"/>
-	  	<to uri="mqtt:mqtt.temp.recevier?host=tcp://activemq:1833&amp;publishTopicName=iotdemocommand/light&amp;userName=admin&amp;password=change12_me"/>
+	  	<to uri="mqtt:mqtt.temp.recevier?host=tcp://activemq:1883&amp;publishTopicName=iotdemocommand/light&amp;userName=admin&amp;password=change12_me"/>
 	  </route>
 	  
 	</camelContext>
