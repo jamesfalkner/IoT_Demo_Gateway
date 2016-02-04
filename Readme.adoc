@@ -1,4 +1,4 @@
-= IoT Demo
+= IoT Demo - Gateway
 
 :Author:    Patrick Steiner
 :Email:     psteiner@redhat.com
