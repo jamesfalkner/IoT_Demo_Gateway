@@ -1,0 +1,47 @@
+= IoT Demo
+
+:Author:    Patrick Steiner
+:Email:     psteiner@redhat.com
+:Date:      23.01.2016
+
+:toc: macro
+
+toc::[]
+
+== Purpose
+This repository is part of a series of three, which in combination resemble an
+Internet of Things ( IoT ) demo-environment, based on the 3-Layered architecture of
+
+* https://github.com/PatrickSteiner/IoT_Demo_Sensors[Edge / Sensors ( this )]: as created of data
+* https://github.com/PatrickSteiner/IoT_Demo_Gateway[Smart Gateway / Controller]: first level of data processing
+* https://github.com/PatrickSteiner/IoT_Demo_Datacenter[Datacenter]: well, the datacenter ...
+
+These layers can - and in this demo will - be made out of a set of
+Red Hat JBoss products, each taking over an important part in the IoT landscape
+
+image::./pictures/iot.png[]
+
+== Gateway
+In your classical IoT architecture the Gateway can provide various capabilities, like
+
+* local access point for sensors
+* first aggregation point for sensor data
+* "normalization" of sensor data
+* forwarding sensor data to datacenter
+
+With this much logic in the Gateway, it is more then fair to call it a "Smart Gateway"
+
+== Architecture
+=== Running on dedicated hardware
+The Smart Gateway is build based on the following technologies
+
+* Raspberry Pi V2 ( or any other similar hardware )
+* Raspbian as the operating system for RPi
+* Hypriot as Docker-Host products
+* Apache ActiveMQ ( provided via https://developers.redhat.com/download-manager/file/jboss-amq-6.2.1.GA.zip[JBoss A-MQ] ) for MQTT and JMS messaging
+* https://access.redhat.com/jbossnetwork/restricted/softwareDownload.html?softwareId=41301[JBoss Fuse] running on https://developers.redhat.com/download-manager/file/jboss-eap-6.4.0.CVE-2015-7501.zip[JBoss EAP] for the required integration capabilities.
+
+Installation instructions for a Smart Gateway can be found http://www.opensourcerers.org/building-a-rasperry-pi-based-smart-gateway-for-iot/[here] and for "lazy" people http://www.opensourcerers.org/building-the-iot-smart-gateway-for-the-lazy-ones-ansible-rules/[here].
+
+=== Running in an "all in one" setup
+tbd
