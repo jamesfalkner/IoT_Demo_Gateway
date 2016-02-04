@@ -25,10 +25,20 @@
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
     <bean id="myHelper" class="com.redhat.demo.smart_gateway.MyHelper" />
-    <bean id="activemqRemote" class="org.apache.activemq.camel.component.ActiveMQComponent" >
+    <bean id="activemqDatacenter" class="org.apache.activemq.camel.component.ActiveMQComponent" >
       <property name="connectionFactory">
         <bean class="org.apache.activemq.ActiveMQConnectionFactory">
           <property name="brokerURL" value="tcp://192.168.42.17:61616" />
+          <property name="userName" value="admin"/>
+          <property name="password" value="change12_me"/>
+        </bean>
+      </property>
+    </bean>
+    
+    <bean id="activemqLocale" class="org.apache.activemq.camel.component.ActiveMQComponent" >
+      <property name="connectionFactory">
+        <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+          <property name="brokerURL" value="tcp://activemq:61616" />
           <property name="userName" value="admin"/>
           <property name="password" value="change12_me"/>
         </bean>
@@ -46,5 +56,12 @@
 	    <convertBodyTo type="java.lang.String"/>
 	    <to uri="activemqRemote:queue:message.to.datacenter"/>
 	  </route>
+	  
+	   <route>
+	  	<from uri="activemqLocale:queue:message.from.datacenter"/>
+	  	<log message="Received message from Datacenter = ${body}"/>
+	  	<to uri="mqtt:mqtt.temp.recevier?host=tcp://activemq:1833&amp;publishTopicName=iotdemocommand/light&amp;userName=admin&amp;password=change12_me"/>
+	  </route>
+	  
 	</camelContext>
 </beans>
