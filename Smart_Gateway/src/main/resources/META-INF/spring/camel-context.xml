@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Configures the Camel Context-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+	<!--Helper Bean to extract data from MQTT Topic and and to Message in csv values  -->
+  	<bean id="myHelper" class="com.redhat.demo.iotdemo.smart_gateway.MyHelper" />
+  
+  	<!--Connection to activeMQ Broker running on same system  -->
+	<bean id="activemqDatacenter" class="org.apache.activemq.camel.component.ActiveMQComponent" >
+    	<property name="connectionFactory">
+      		<bean class="org.apache.activemq.ActiveMQConnectionFactory">
+        		<property name="brokerURL" value="${DATACENTER_BROKER_URL}" />
+        		<property name="userName" value="admin"/>
+        		<property name="password" value="change12_me"/>
+      		</bean>
+    	</property>
+  	</bean>
+  
+  	<!-- Connection to activeMQ Broker in datacenter  -->
+  	<bean id="activemqLocale" class="org.apache.activemq.camel.component.ActiveMQComponent" >
+    	<property name="connectionFactory">
+      		<bean class="org.apache.activemq.ActiveMQConnectionFactory">
+        		<property name="brokerURL" value="${LOCAL_BROKER_URL}" />
+        		<property name="userName" value="admin"/>
+        		<property name="password" value="change12_me"/>
+      		</bean>
+    	</property>
+  	</bean>
+  
+  	<!--Initiate access to properties -->
+  	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"/>
+
+ 	<camelContext xmlns="http://camel.apache.org/schema/spring">
+  <dataFormats>
+    <bindy type="Csv" classType="com.redhat.demo.iotdemo.smart_gateway.Dataset" id="bindyDataFormat"/>
+  </dataFormats>
+  <route>
+    <from uri="mqtt:mqtt.temp.receiver?host=tcp://localhost:1883&amp;subscribeTopicNames=iotdemo/#/#&amp;userName=admin&amp;password=change12_me"/>
+    <bean ref="myHelper" method="enhanceMessage" beanType="com.redhat.demo.smart_gateway.MyHelper"/>
+    <unmarshal ref="bindyDataFormat"/>
+    <convertBodyTo type="java.lang.String"/>
+    <to uri="activemqDatacenter:queue:message.to.datacenter"/>
+  </route>
+  <route>
+    <from uri="activemqLocale:queue:message.from.datacenter"/>
+    <log message="Received message from Datacenter = ${body}"/>
+    <to uri="mqtt:mqtt.temp.recevier?host=tcp://localhost:1883&amp;publishTopicName=iotdemocommand/light&amp;userName=admin&amp;password=change12_me"/>
+  </route>
+</camelContext>
+
+</beans>

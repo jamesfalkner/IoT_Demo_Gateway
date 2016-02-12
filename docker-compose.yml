@@ -1,32 +1,14 @@
-activemq:
-        build: ./ActiveMQ
-        hostname: activemq
+smartgateway:
+        build: ./Smart_Gateway
+        hostname: smartgateway
         expose:
+                - 8181
                 - 61616
-                - 5672
-                - 61613
-                - 1884
-                - 61614
-                - 8161
+                - 1883
         ports:
-                - "5672:5672"
-                - "61613:61613"
-                - "1883:1883"
-                - "61614:61614"
-                - "8161:8161"
+                - "8181:8181"
                 - "61616:61616"
-
-fuseeap:
-        build: ./FuseEAP
-        hostname: fuse
-        expose:
-                - 8080
-                - 9990
-        ports:
-                - "8080:8080"
-                - "9990:9990"
-        links:
-                - activemq
-        privileged: true
-        volumes:
-                - ./Smart_Gateway/target:/home/psteiner/target
+                - "1883:1883"
+        environment:
+                - LOCAL_BROKER_URL=tcp://localhost:61616
+                - DATACENTER_BROKER_URL=tcp://localhost:61616

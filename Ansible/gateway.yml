@@ -29,22 +29,14 @@
       - name: Clone Smart Gateway code from github
         git: repo=https://github.com/PatrickSteiner/IoT_Demo_Gateway.git dest=/home/pi/IoT_Demo_Gateway
 
-      - name: Upload JBoss A-MQ
-        copy: src=./files/jboss-a-mq-6.2.1.redhat-084.zip
-              dest=/home/pi/IoT_Demo_Gateway/ActiveMQ/Docker_Files/software/
-
-      - name: Upload JBoss EAP
-        copy: src=./files/jboss-eap-6.4.0.zip
-              dest=/home/pi/IoT_Demo_Gateway/FuseEAP/Docker_Files/software/
-
-      - name: Upload JBoss Fuse Integration for JBoss EAP
-        copy: src=./files/fuse-eap-installer-6.2.1.redhat-084.jar
-              dest=/home/pi/IoT_Demo_Gateway/FuseEAP/Docker_Files/software/
+      - name: Upload JBoss Fuse
+        copy: src=./files/jboss-fuse-full-6.2.1.redhat-084.zip
+              dest=/home/pi/IoT_Demo_Gateway/Smart_Gateway_OSGi/Docker_Files/software/
 
       - name: Build the Smart Gateway deployables
         shell: "mvn clean install"
         args:
-           chdir: /home/pi/IoT_Demo_Gateway/Smart_Gateway
+           chdir: /home/pi/IoT_Demo_Gateway/Smart_Gateway_OSGi
 
       - name: Build Docker base image
         shell: "docker build --rm -t psteiner/base ."
