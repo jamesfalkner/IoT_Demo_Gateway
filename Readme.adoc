@@ -19,8 +19,6 @@ Internet of Things ( IoT ) demo-environment, based on the 3-Layered architecture
 These layers can - and in this demo will - be made out of a set of
 Red Hat JBoss products, each taking over an important part in the IoT landscape
 
-image::./pictures/iot.png[]
-
 == Gateway
 In your classical IoT architecture the Gateway can provide various capabilities, like
 
@@ -38,10 +36,47 @@ The Smart Gateway is build based on the following technologies
 * Raspberry Pi V2 ( or any other similar hardware )
 * Raspbian as the operating system for RPi
 * Hypriot as Docker-Host products
-* Apache ActiveMQ ( provided via https://developers.redhat.com/download-manager/file/jboss-amq-6.2.1.GA.zip[JBoss A-MQ] ) for MQTT and JMS messaging
-* https://access.redhat.com/jbossnetwork/restricted/softwareDownload.html?softwareId=41301[JBoss Fuse] running on https://developers.redhat.com/download-manager/file/jboss-eap-6.4.0.CVE-2015-7501.zip[JBoss EAP] for the required integration capabilities.
+* https://access.redhat.com/jbossnetwork/restricted/softwareDownload.html?softwareId=41301[JBoss Fuse] for the required messaging and integration capabilities.
 
 Installation instructions for a Smart Gateway can be found http://www.opensourcerers.org/building-a-rasperry-pi-based-smart-gateway-for-iot/[here] and for "lazy" people http://www.opensourcerers.org/building-the-iot-smart-gateway-for-the-lazy-ones-ansible-rules/[here].
 
 === Running in an "all in one" setup
 tbd
+
+== Configure and Run Smart Gateway
+=== Configure Environment
+Before you can start the Smart Gateway, you will have to do a small configuration task.
+This is required, as the Smart Gateway is designed to be flexible about the surrounding
+environment.
+
+Please do open the file 'docker-compose.yml' in your favorite editor and change the
+two entries which define the environment variables for the messaging broker IP addresses and
+ports
+
+1. LOCAL_BROKER_URL is the IP-address and port for the broker running inside the Smart Gateway. Usually there is no reason to change is entry.
+
+2. DATACENTER_BROKER_URL is the IP-address and port for the broker in the https://github.com/PatrickSteiner/IoT_Demo_Datacenter[Datacenter] part of the demo. This should reflect the IP-Adress of the docker host for the Datacenter part.
+
+Once you changed these values, you are ready to go.
+
+=== Start Environment
+Starting the Smart Gateway is, at the current time, a manual step. I will extend
+the demo to start the Smart Gateway container automatically at boot-time of the Raspberry.
+
+Until then, please start the Smart Gateway with
+
+```js
+pi@gateway:~ $ cd IoT_Demo_Gateway/
+pi@gateway:~/IoT_Demo_Gateway $ docker-compose up -d
+```
+
+To "monitor" the startup or runtime of the Smart Gateway you can use the command
+
+```js
+pi@gateway:~/IoT_Demo_Gateway $ docker-compose logs
+Attaching to iotdemogateway_smartgateway_1
+smartgateway_1 | Please wait while JBoss Fuse is loading...
+100% [========================================================================]
+```
+
+Once you see the `100%` you are good to go!
