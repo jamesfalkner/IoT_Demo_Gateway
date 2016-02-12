@@ -11,4 +11,4 @@ smartgateway:
                 - "1883:1883"
         environment:
                 - LOCAL_BROKER_URL=tcp://localhost:61616
-                - DATACENTER_BROKER_URL=tcp://localhost:61616
+                - DATACENTER_BROKER_URL=tcp://192.168.178.97:61616
