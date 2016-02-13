@@ -10,17 +10,7 @@ smartgateway:
                 - "61616:61616"
                 - "1883:1883"
         environment:
-                - LOCAL_BROKER_URL=tcp://localhost:61616
-                - DATACENTER_BROKER_URL=tcp://192.168.178.97:61616
-
-rulesserver:
-        build: ./Rules
-        hostname: rules
-        links:
-                - smartgateway
-        volumes:
-               - ./Rules/target/:/home/psteiner/target:ro
-        environment:
-                - mqttBrokerURL=smartgateway
-                - datacenterBrokerURL=192.168.178.97
-                - sourceBrokerURL=smartgateway
+                - GATEWAY_JMS_BROKER_URL=tcp://localhost:61616
+                - DATACENTER_JMS_BROKER=tcp://192.168.178.97:61616
+                - BROKER_ADMIN_UID=admin
+                - BROKER_ADMIN_PASSWD=change12_me
