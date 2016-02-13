@@ -46,7 +46,7 @@
     <bean ref="myHelper" method="enhanceMessage" beanType="com.redhat.demo.smart_gateway.MyHelper"/>
     <unmarshal ref="bindyDataFormat"/>
     <convertBodyTo type="java.lang.String"/>
-    <to uri="activemqDatacenter:queue:message.to.rules"/>
+    <to uri="activemqDatacenter:queue:message.to.datacenter"/>
   </route>
   
   <route>

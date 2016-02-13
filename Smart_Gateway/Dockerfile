@@ -12,11 +12,9 @@ ADD Docker_Files/config/activemq.xml $HOME/tmp/
 
 # copy helper_install script
 ADD Docker_Files/scripts/install.sh $HOME/tmp/
+ADD Docker_Files/scripts/run.sh $HOME/
 
-# copy deployable
-# ADD src $HOME/tmp/src/
-# ADD pom.xml $HOME/tmp/
-ADD target/$BUNDLE_NAME $HOME/tmp/
+# ADD target/$BUNDLE_NAME $HOME/tmp/
 
 # let the user 'psteiner' own the files
 RUN chown -R psteiner:psteiner $HOME
