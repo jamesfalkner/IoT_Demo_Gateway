@@ -189,38 +189,4 @@ public class App
 		}
 	}
 	
-	public void main( String[] args ) throws InterruptedException, JMSException, JAXBException, MqttPersistenceException, MqttException
-    {
-    	DataSet receivedMessage = null;
-    	
-    	waitForBrokers();
-    	
-    	connectToDistributedCache();
-			
-		while ( 1 ==1 ) {
-			
-			// Read a message from queue
-			receivedMessage = readDataFromQueue();		
-			if ( receivedMessage != null ) {
-				
-				// Send message to BRMS Server for rules and CEP processing
-				receivedMessage = callBRMS(receivedMessage);
-				
-				// Did BRMS identify a situation which needs an alert?
-				if ( receivedMessage.getErrorCode() != 0 ) {
-					callBPM(receivedMessage);
-					sendAlarmToMqtt(receivedMessage);
-					storeInfoInDistributedCache(receivedMessage);
-				}
-				
-				// Did BRMS decide this message should be forwarded
-				if ( receivedMessage.getRequired() == 1 ) {
-					
-				}
-					            	            
-			}
-            
-		}
-		
-    }
 }
