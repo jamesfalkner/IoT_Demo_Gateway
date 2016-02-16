@@ -1,0 +1,33 @@
+package com.redhat.demo.iot.gateway.rules_cep
+ 
+import com.redhat.demo.iot.gateway.rules_cep.DataSet;
+
+declare DataSet
+	@role ( event )
+	@expires( 2d )
+end
+	
+rule "FirstData"
+when
+	$data:DataSet ( count == 0 ) from entry-point IOTStream
+then	
+	$data.setRequired(1);
+end	
+
+rule "ThisDataIWant"
+when
+	$data1:DataSet ( ) from entry-point IOTStream
+	$data2:DataSet ( this != $data1, deviceType == $data1.deviceType, deviceID == $data1.deviceID, payload != $data1.payload, count == $data1.count-1 ) from entry-point IOTStream 
+then
+	$data1.setRequired(1);
+end
+
+
+rule "Calculate Average"
+when
+	$dataset : DataSet( $id:deviceID )  from entry-point IOTStream
+    Number( $average : floatValue ) from accumulate( $data: DataSet( deviceID == $id, $payload:payload ) over window:time( 10m ) from entry-point IOTStream, 
+        average( $payload ) )
+then
+	$dataset.setAverage($average);
+end
