@@ -14,6 +14,11 @@ smartgateway:
                 - DATACENTER_JMS_BROKER=tcp://192.168.178.97:61616
                 - BROKER_ADMIN_UID=admin
                 - BROKER_ADMIN_PASSWD=change12_me
+                - OUTPUT_QUEUE=messsage.to.rules
+                - JAVA_MIN_MEM=256M
+                - JAVA_MAX_MEM=256M
+                - JAVA_PERM_MEM=128M
+                - JAVA_MAX_PERM_MEM=128M
         volumes:
                 - ./Smart_Gateway/target:/home/psteiner/target
 
