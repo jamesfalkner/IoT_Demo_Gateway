@@ -35,11 +35,11 @@
     <bean ref="myHelper" method="enhanceMessage" beanType="com.redhat.demo.smart_gateway.MyHelper"/>
     <unmarshal ref="bindyDataFormat"/>
     <convertBodyTo type="java.lang.String"/>
-    <to uri="activemqLocal:queue:message.to.rules_cep"/>
+    <to uri="activemqLocal:queue:${TARGET_AMQ_QUEUE}"/>
   </route>
   
   <route>
-    <from uri="activemqLocale:queue:message.from.datacenter"/>
+    <from uri="activemqLocale:queue:${SOURCE_AMQ_QUEUE}"/>
     <log message="Received message from Datacenter = ${body}"/>
     <to uri="mqtt:mqtt.temp.recevier?host=tcp://localhost:1883&amp;publishTopicName=iotdemocommand/light&amp;userName=admin&amp;password=change12_me"/>
   </route>
