@@ -11,7 +11,7 @@
   	<bean id="myHelper" class="com.redhat.demo.iotdemo.smart_gateway.MyHelper" />
     
   	<!--Connection to activeMQ Broker running on same system  -->
-  	<bean id="activemqLocale" class="org.apache.activemq.camel.component.ActiveMQComponent" >
+  	<bean id="activemqLocal" class="org.apache.activemq.camel.component.ActiveMQComponent" >
     	<property name="connectionFactory">
       		<bean class="org.apache.activemq.ActiveMQConnectionFactory">
         		<property name="brokerURL" value="${GATEWAY_JMS_BROKER_URL}" />
@@ -25,6 +25,9 @@
   	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"/>
 
  	<camelContext xmlns="http://camel.apache.org/schema/spring">
+<propertyPlaceholder id="properties"
+                             location="classpath:org/apache/camel/component/properties/myprop.properties"
+                             xmlns="http://camel.apache.org/schema/spring"/>
   <dataFormats>
     <bindy type="Csv" classType="com.redhat.demo.iotdemo.smart_gateway.Dataset" id="bindyDataFormat"/>
   </dataFormats>
@@ -35,11 +38,11 @@
     <bean ref="myHelper" method="enhanceMessage" beanType="com.redhat.demo.smart_gateway.MyHelper"/>
     <unmarshal ref="bindyDataFormat"/>
     <convertBodyTo type="java.lang.String"/>
-    <to uri="activemqLocal:queue:${TARGET_AMQ_QUEUE}"/>
+    <to uri="activemqLocal:queue:message.to.rules"/>
   </route>
   
   <route>
-    <from uri="activemqLocale:queue:${SOURCE_AMQ_QUEUE}"/>
+    <from uri="activemqLocal:queue:message.from.datacenter"/>
     <log message="Received message from Datacenter = ${body}"/>
     <to uri="mqtt:mqtt.temp.recevier?host=tcp://localhost:1883&amp;publishTopicName=iotdemocommand/light&amp;userName=admin&amp;password=change12_me"/>
   </route>
