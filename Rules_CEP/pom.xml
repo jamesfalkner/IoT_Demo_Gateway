@@ -46,11 +46,7 @@
 	            	<enabled>false</enabled>
 	          </snapshots>
         </repository>
-        <repository>
-		    <id>paho-mqtt-client</id>
-		    <name>Paho MQTT Client</name>
-		    <url>https://repo.eclipse.org/content/repositories/paho-releases/</url>
-		</repository>
+   
  	</repositories>
   
   <dependencies>
@@ -79,32 +75,10 @@
 	  		<version>5.9.0</version>
 		</dependency>
 		
-		<!--  MQTT dependencies  -->
-		<dependency>
-		   <groupId>org.eclipse.paho</groupId>
-		   <artifactId>mqtt-client</artifactId>
-		   <version>0.4.0</version>
-		</dependency>
-		
-		 <!-- Import the infinispan core -->
-        <dependency>
-            <groupId>org.infinispan</groupId>
-            <artifactId>infinispan-core</artifactId>
-            <version>${version.org.infinispan}</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <!-- Import the Infinispan client hotrod -->
-        <dependency>
-            <groupId>org.infinispan</groupId>
-            <artifactId>infinispan-client-hotrod</artifactId>
-            <version>${version.org.infinispan}</version>
-            <scope>compile</scope>
-        </dependency>
   </dependencies>
   
   <build>
-        <finalName>iot_datacenter_monitor</finalName>
+        <finalName>rules_cep</finalName>
         <plugins>
             
             <plugin>
