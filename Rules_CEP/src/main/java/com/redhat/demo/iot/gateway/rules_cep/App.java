@@ -37,7 +37,10 @@ public class App
     	String 	targetQueue 	= System.getProperty("TARGET_QUEUE",DEFAULT_TARGET_QUEUE);
     	String  brokerUID		= System.getProperty("BROKER_ADMIN_UID",DEFAULT_BROKER_ADMIN_UID);
     	String  brokerPassword  = System.getProperty("BROKER_ADMIN_PASSWD",DEFAULT_BROKER_ADMIN_PASSWD);
-    	
+
+        System.out.println("TARGET_AMQ_BROKER = " + targetAMQBroker);
+    
+	
     	System.out.println(" Check if remote AMQ-Broker are already available");
     	AMQTester tester = new AMQTester(); 
     	

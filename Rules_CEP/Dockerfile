@@ -4,24 +4,20 @@ MAINTAINER psteiner <psteiner@redhat.com>
 
 USER root
 
-ENV APPL iot_datacenter_monitor-jar-with-dependencies.jar
+ENV APPL rules_cep-jar-with-dependencies.jar
 
-# Transfer application
-ADD target/$APPL $HOME/tmp/
-
-# transfer install-script
-ADD Docker_Files/scripts/run.sh $HOME/tmp/
+# transfer run-script
+ADD Docker_Files/scripts/run.sh $HOME/
 
 # make 'psteiner' the owner
-RUN chown -R psteiner:psteiner $HOME/tmp && \
-    chmod u+x $HOME/tmp/run.sh
+RUN chown -R psteiner:psteiner $HOME/run.sh 
 
 # switch to psteiner
 USER psteiner
 
-WORKDIR $HOME/tmp
+WORKDIR $HOME/
 
-CMD $HOME/tmp/run.sh
+CMD $HOME/run.sh
 
 
 
