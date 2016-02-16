@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "dataSet")
-@XmlType(propOrder = { "timestamp", "deviceType", "deviceID", "payload","required","average", "errorCode", "errorMessage" })
+@XmlType(propOrder = { "timestamp", "deviceType", "deviceID", "payload", "count", "required", "average", "errorCode", "errorMessage" })
 public class DataSet {
 	private String	timestamp;
 	private String	deviceType;
@@ -16,6 +16,7 @@ public class DataSet {
 	private	float	average;
 	private String 	errorMessage;
 	private int  	errorCode;
+	private int 	count;
 	
 	public DataSet()
 	{
@@ -25,9 +26,10 @@ public class DataSet {
 		this.payload	= 0;
 		this.required	= 0;
 		this.average	= 0;
+		this.count		= 0;
 	}
 	
-	public DataSet(String time, String devType, int devID, int pay, int required, float average)
+	public DataSet(String time, String devType, int devID, int pay, int required, float average, int count)
 	{
 		this.timestamp 	= time;
 		this.deviceType = devType;
@@ -35,10 +37,11 @@ public class DataSet {
 		this.payload	= pay;
 		this.required	= required;
 		this.average	= average;
+		this.count		= count;
 	}
 
 	public String toCSV() {
-		return ( deviceType+", "+deviceID+", "+payload);
+		return ( deviceType+", "+deviceID+", "+payload+", "+count);
 	}
 	
 	/**
