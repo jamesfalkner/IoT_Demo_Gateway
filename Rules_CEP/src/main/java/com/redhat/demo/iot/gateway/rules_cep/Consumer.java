@@ -1,4 +1,4 @@
-package com.redhat.demo.iot.datacenter.monitor;
+package com.redhat.demo.iot.gateway.rules_cep;
 
 import javax.jms.Connection;
 import javax.jms.Destination;
@@ -19,9 +19,9 @@ public class Consumer  implements ExceptionListener  {
 	private Destination					destination;
 	private MessageConsumer				consumer;
 	
-	public Consumer(String queueName, String brokerURL) throws JMSException {
+	public Consumer(String queueName, String brokerURL, String uid, String passwd) throws JMSException {
 	     // Create a ConnectionFactory
-        connectionFactory = new ActiveMQConnectionFactory("admin", "change12_me", brokerURL);
+        connectionFactory = new ActiveMQConnectionFactory(uid, passwd, brokerURL);
 
         // Create a Connection
         connection = connectionFactory.createConnection();

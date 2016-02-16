@@ -1,4 +1,4 @@
-package com.redhat.demo.iot.datacenter.monitor;
+package com.redhat.demo.iot.gateway.rules_cep;
 
 import java.util.Date;
 
@@ -37,6 +37,10 @@ public class DataSet {
 		this.average	= average;
 	}
 
+	public String toCSV() {
+		return ( deviceType+", "+deviceID+", "+payload);
+	}
+	
 	/**
 	 * @return the required
 	 */

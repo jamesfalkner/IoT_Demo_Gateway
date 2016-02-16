@@ -20,17 +20,6 @@
       		</bean>
     	</property>
   	</bean>
-  	
-  	<!--Connection to activeMQ Broker running on same system  -->
-  	<bean id="activemqDatacenter" class="org.apache.activemq.camel.component.ActiveMQComponent" >
-    	<property name="connectionFactory">
-      		<bean class="org.apache.activemq.ActiveMQConnectionFactory">
-        		<property name="brokerURL" value="${DATACENTER_JMS_BROKER}" />
-        		<property name="userName" value="${BROKER_ADMIN_UID}"/>
-        		<property name="password" value="${BROKER_ADMIN_PASSWD}"/>
-      		</bean>
-    	</property>
-  	</bean>
   
   	<!--Initiate access to properties -->
   	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"/>
@@ -46,7 +35,7 @@
     <bean ref="myHelper" method="enhanceMessage" beanType="com.redhat.demo.smart_gateway.MyHelper"/>
     <unmarshal ref="bindyDataFormat"/>
     <convertBodyTo type="java.lang.String"/>
-    <to uri="activemqDatacenter:queue:message.to.datacenter"/>
+    <to uri="activemqLocal:queue:message.to.rules_cep"/>
   </route>
   
   <route>
