@@ -55,9 +55,11 @@ ports
 
 1. `GATEWAY_JMS_BROKER_URL` is the fully qualified URL for the ActiveMQ Broker running on the Gateway this will usually be `tcp://localhost:61616`
 
-2. `BROKER_ADMIN_UID` the user-id of the user which authenticates at the Gateway. In the demo-setup this will usually be `admin`
+2. `DATACENTER_JMS_BROKER_URL` is the fully qualified URL for the ActiveMQ Broker running the Datacenter part of the demo setup.
 
-3. `BROKER_ADMIN_PASSWD` the password for the user. This will usually be `change12_me` in the default demo setup.
+3. `BROKER_ADMIN_UID` the user-id of the user which authenticates at the Gateway. In the demo-setup this will usually be `admin`
+
+4. `BROKER_ADMIN_PASSWD` the password for the user. This will usually be `change12_me` in the default demo setup.
 
 Once you changed these values, you are ready to go.
 
