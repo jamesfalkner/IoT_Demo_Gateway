@@ -1,2 +1,5 @@
 [gateways]
 192.168.178.103
+
+[local]
+localhost
