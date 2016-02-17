@@ -44,6 +44,29 @@ Installation instructions for a Smart Gateway can be found http://www.opensource
 tbd
 
 == Configure and Run Smart Gateway
+=== Building the Smart Gateway
+If you followed the entries with the Ansible http://www.opensourcerers.org/building-the-iot-smart-gateway-for-the-lazy-ones-ansible-rules/[description], then you are good to go to start the Gateway.
+
+If you prefered to go the manual steps as described in http://www.opensourcerers.org/putting-the-smart-into-the-smart-device/[this blog], then you will still have to build the deployables.
+
+As for now, this is a fairly easy step
+```
+pi@gateway:~ $ cd
+pi@gateway:~ $ cd IoT_Demo_Gateway/Smart_Gateway/
+pi@gateway:~/IoT_Demo_Gateway/Smart_Gateway $ mvn clean install
+
+...
+
+INFO] Writing OBR metadata
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 3 minutes 24 seconds
+[INFO] Finished at: Wed Feb 17 16:37:25 UTC 2016
+[INFO] Final Memory: 44M/109M
+[INFO] ------------------------------------------------------------------------
+```
+
 === Configure Environment
 Before you can start the Smart Gateway, you will have to do a small configuration task.
 This is required, as the Smart Gateway is designed to be flexible about the surrounding
