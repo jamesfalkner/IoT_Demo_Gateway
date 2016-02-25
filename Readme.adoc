@@ -12,7 +12,7 @@ toc::[]
 This repository is part of a series of three, which in combination resemble an
 Internet of Things ( IoT ) demo-environment, based on the 3-Layered architecture of
 
-* https://github.com/PatrickSteiner/IoT_Demo_Sensors[Edge / Sensors ( this )]: as created of data
+* https://github.com/PatrickSteiner/IoT_Demo_Sensors[Edge / Sensors]: creation of data
 * https://github.com/PatrickSteiner/IoT_Demo_Gateway[Smart Gateway / Controller]: first level of data processing
 * https://github.com/PatrickSteiner/IoT_Demo_Datacenter[Datacenter]: well, the datacenter ...
 
@@ -33,38 +33,37 @@ With this much logic in the Gateway, it is more then fair to call it a "Smart Ga
 === Running on dedicated hardware
 The Smart Gateway is build based on the following technologies
 
-* Raspberry Pi V2 ( or any other similar hardware )
-* Raspbian as the operating system for RPi
-* Hypriot as Docker-Host products
+* Intel X86 or Atom Processor ( I'm using http://wiki.minnowboard.org/MinnowBoard_Turbot[Minnowboard Turbot] )
+* Any Linux distribution ( I'm using https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux[Red Hat Enterprise Linux V7.x] )
 * https://access.redhat.com/jbossnetwork/restricted/softwareDownload.html?softwareId=41301[JBoss Fuse] for the required messaging and integration capabilities.
 
 Installation instructions for a Smart Gateway can be found http://www.opensourcerers.org/building-a-rasperry-pi-based-smart-gateway-for-iot/[here] and for "lazy" people http://www.opensourcerers.org/building-the-iot-smart-gateway-for-the-lazy-ones-ansible-rules/[here].
 
-=== Running in an "all in one" setup
-tbd
-
 == Configure and Run Smart Gateway
 === Building the Smart Gateway
-If you followed the entries with the Ansible http://www.opensourcerers.org/building-the-iot-smart-gateway-for-the-lazy-ones-ansible-rules/[description], then you are good to go to start the Gateway.
+To be able to run the Smart Gateway, as proposed here, you will have to prepare the following
 
-If you prefered to go the manual steps as described in http://www.opensourcerers.org/putting-the-smart-into-the-smart-device/[this blog], then you will still have to build the deployables.
+* Docker Engine running on your hardware/OS
+* Maven installed
+* two network devices, at least one WLAN device
 
-As for now, this is a fairly easy step
+With all this prepared, all you need to do is to to clone the repo
+
 ```
 pi@gateway:~ $ cd
-pi@gateway:~ $ cd IoT_Demo_Gateway/Smart_Gateway/
-pi@gateway:~/IoT_Demo_Gateway/Smart_Gateway $ mvn clean install
+pi@gateway:~ $ git clone -b Minnowboard https://github.com/PatrickSteiner/IoT_Demo_Gateway.git
+```
+if you want run on X86/Atom based systems, or
+```
+pi@gateway:~ $ cd
+pi@gateway:~ $ git clone https://github.com/PatrickSteiner/IoT_Demo_Gateway.git
+```
+for Raspberry Pi.
 
-...
-
-INFO] Writing OBR metadata
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESSFUL
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 3 minutes 24 seconds
-[INFO] Finished at: Wed Feb 17 16:37:25 UTC 2016
-[INFO] Final Memory: 44M/109M
-[INFO] ------------------------------------------------------------------------
+After cloneing, you only need to enter the newly created directory and run the `build.sh` script.
+```
+pi@gateway:~ $ cd IoT_Demo_Gateway
+pi@gateway:~ $ ./build.sh
 ```
 
 === Configure Environment
@@ -73,16 +72,29 @@ This is required, as the Smart Gateway is designed to be flexible about the surr
 environment.
 
 Please do open the file 'docker-compose.yml' in your favorite editor and change the
-two entries which define the environment variables for the messaging broker IP addresses and
+entries which define the environment variables for the messaging broker IP addresses and
 ports
 
-1. `GATEWAY_JMS_BROKER_URL` is the fully qualified URL for the ActiveMQ Broker running on the Gateway this will usually be `tcp://localhost:61616`
+1. In section `smartgateway`:
 
-2. `DATACENTER_JMS_BROKER_URL` is the fully qualified URL for the ActiveMQ Broker running the Datacenter part of the demo setup.
+  ** `INBOUND_JMS_BROKER_URL` is the fully qualified URL for the ActiveMQ Broker running on the Gateway this will usually be `tcp://localhost:61616`
 
-3. `BROKER_ADMIN_UID` the user-id of the user which authenticates at the Gateway. In the demo-setup this will usually be `admin`
+  ** `OUTBOUND_JMS_BROKER_URL` is the fully qualified URL for the ActiveMQ Broker where the Complex Event Processing ( CEP ) will expect messages to arrive. In this setup this will also be `tcp://localhost:61616`
 
-4. `BROKER_ADMIN_PASSWD` the password for the user. This will usually be `change12_me` in the default demo setup.
+  ** `DATACENTER_JMS_BROKER_URL` is the fully qualified URL for the ActiveMQ Broker running the Datacenter part of the demo setup.
+
+  ** `BROKER_ADMIN_UID` the user-id of the user which authenticates at the Gateway. In the demo-setup this will usually be `admin`
+
+  ** `BROKER_ADMIN_PASSWD` the password for the user. This will usually be `change12_me` in the default demo setup.
+
+2. In section `rulescep`
+
+  ** `SOURCE_AMQ_BROKER` is the fully qualified URL for the ActiveMQ Broker from which CEP will receive messages. Usually this will be `tcp://smartgateway:61616`
+  ** `TARGET_AMQ_BROKER` is the fully qualified URL for the ActiveMQ Broker where CEP will deliver messages. In my setup this is `tcp://192.168.178.97:61616`
+  ** `SOURCE_QUEUE` name of queue on `SOURCE_AMQ_BROKER` where CEP will receive messages from. Should be `message.to.rules_cep`
+  ** `TARGET_QUEUE` name of queue on `TARGET_AMQ_BROKER` where CEP will deliver messages to. Should be `message.to.datacenter`
+  ** `BROKER_ADMIN_UID` the user-id of the user which authenticates at the Gateway. In the demo-setup this will usually be `admin`
+  ** `BROKER_ADMIN_PASSWD` the password for the user. This will usually be `change12_me` in the default demo setup.
 
 Once you changed these values, you are ready to go.
 
@@ -92,14 +104,14 @@ the demo to start the Smart Gateway container automatically at boot-time of the 
 
 Until then, please start the Smart Gateway with
 
-```js
+```
 pi@gateway:~ $ cd IoT_Demo_Gateway/
 pi@gateway:~/IoT_Demo_Gateway $ docker-compose up -d
 ```
 
 To "monitor" the startup or runtime of the Smart Gateway you can use the command
 
-```js
+```
 pi@gateway:~/IoT_Demo_Gateway $ docker-compose logs
 Attaching to iotdemogateway_smartgateway_1
 smartgateway_1 | Please wait while JBoss Fuse is loading...
