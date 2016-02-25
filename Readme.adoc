@@ -19,6 +19,8 @@ Internet of Things ( IoT ) demo-environment, based on the 3-Layered architecture
 These layers can - and in this demo will - be made out of a set of
 Red Hat JBoss products, each taking over an important part in the IoT landscape
 
+image::pictures/Overview.png[]
+
 == Gateway
 In your classical IoT architecture the Gateway can provide various capabilities, like
 
