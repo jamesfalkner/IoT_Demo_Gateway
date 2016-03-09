@@ -41,12 +41,15 @@ The Smart Gateway is build based on the following technologies
 
 Installation instructions for a Smart Gateway can be found http://www.opensourcerers.org/building-a-rasperry-pi-based-smart-gateway-for-iot/[here] and for "lazy" people http://www.opensourcerers.org/building-the-iot-smart-gateway-for-the-lazy-ones-ansible-rules/[here].
 
-== Configure and Run Smart Gateway
-=== Building the Smart Gateway
+== Build, Configure and Run Smart Gateway
+=== Preparation Steps
 To be able to run the Smart Gateway, as proposed here, you will have to prepare the following
 
-* Docker Engine running on your hardware/OS
-* Maven installed
+* git
+* Maven ( I'm on V 3.3.9 )
+* Ansible ( I'm on V 2.0.0.2 )
+* Docker ( I'm running docker-machine V1.9.1 )
+* docker-compose ( I'm running V1.5.2 )
 * two network devices, at least one WLAN device
 
 With all this prepared, all you need to do is to to clone the repo
@@ -62,6 +65,9 @@ pi@gateway:~ $ git clone https://github.com/PatrickSteiner/IoT_Demo_Gateway.git
 ```
 for Raspberry Pi.
 
+After cloning the repo, you will have to download and put https://access.redhat.com/jbossnetwork/restricted/softwareDownload.html?softwareId=41311[JBoss Fuse on Karaf] into the directory `./IoT_Demo_SmartGateway/Fuse/Docker_Files/software/`
+
+=== Building the Gateway
 After cloneing, you only need to enter the newly created directory and run the `build.sh` script.
 ```
 pi@gateway:~ $ cd IoT_Demo_Gateway
@@ -121,3 +127,6 @@ smartgateway_1 | Please wait while JBoss Fuse is loading...
 ```
 
 Once you see the `100%` you are good to go!
+
+WARNING: The Smart Gateway will try to access the JMS Broker defined under `TARGET_AMQ_BROKER`.
+If this broker should not be available, the start if the Gateway will fail.
