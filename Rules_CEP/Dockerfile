@@ -10,7 +10,7 @@ ENV APPL rules_cep-jar-with-dependencies.jar
 ADD Docker_Files/scripts/run.sh $HOME/
 
 # make 'psteiner' the owner
-RUN chown -R psteiner:psteiner $HOME/run.sh 
+RUN chown -R psteiner $HOME/run.sh 
 
 # switch to psteiner
 USER psteiner
