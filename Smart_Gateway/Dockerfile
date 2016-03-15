@@ -17,7 +17,7 @@ ADD Docker_Files/scripts/run.sh $HOME/
 # ADD target/$BUNDLE_NAME $HOME/tmp/
 
 # let the user 'psteiner' own the files
-RUN chown -R psteiner:psteiner $HOME
+RUN chown -R psteiner $HOME
 
 # continue as 'psteiner'
 USER psteiner
